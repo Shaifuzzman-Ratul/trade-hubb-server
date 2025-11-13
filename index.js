@@ -1,13 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+require('dotenv').config();
+
 const app = express();
 
-const port = 3000
+const port = process.env.PORT || 3000;
 app.use(cors())
 app.use(express.json());
 
-const uri = "mongodb+srv://TradeHub:J6jBppknSlxYa1BK@cluster0.pd4yjec.mongodb.net/?appName=Cluster0";
+const uri = process.env.MONGO_URI;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -21,7 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        // await client.connect();
 
         const db = client.db('trade-hub');
         const modelCollection = db.collection('products');
@@ -101,12 +103,20 @@ async function run() {
             const result = await modelCollection2.deleteOne(filter)
             res.send(result)
         })
+        app.delete('/imports/:id', async (req, res) => {
+            const { id } = req.params;
+            const filter = { _id: new ObjectId(id) }
+
+            const result = await modelCollection3.deleteOne(filter)
+            res.send(result)
+        })
+
         app.get('/latest', async (req, res) => {
             const result = await modelCollection.find().sort({ createdAt: '-1' }).limit(6).toArray()
             res.send(result);
         })
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
+        // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
