@@ -45,8 +45,6 @@ async function run() {
             // console.log(data);
             res.send(result)
 
-
-
         })
         app.post('/exports', async (req, res) => {
             const data = req.body;
@@ -54,7 +52,6 @@ async function run() {
             // console.log(data);
             res.send(result)
         })
-
         app.post('/imports', async (req, res) => {
             const data = req.body;
             const result = await modelCollection3.insertOne(data)
@@ -65,7 +62,6 @@ async function run() {
             const result = await modelCollection3.find().toArray()
             res.send(result)
         })
-
         app.get('/exports', async (req, res) => {
             const result = await modelCollection2.find().toArray()
             res.send(result)
