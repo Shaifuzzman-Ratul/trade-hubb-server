@@ -19,7 +19,6 @@ const client = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
-
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
@@ -29,7 +28,6 @@ async function run() {
         const modelCollection = db.collection('products');
         const modelCollection2 = db.collection('exports')
         const modelCollection3 = db.collection('imports')
-
         app.get('/products', async (req, res) => {
             const result = await modelCollection.find().toArray()
             res.send(result)
@@ -39,7 +37,6 @@ async function run() {
             // console.log(id);
             const result = await modelCollection.findOne({ _id: new ObjectId(id) })
             res.send(result)
-
 
         })
         app.post('/products', async (req, res) => {
