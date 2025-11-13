@@ -23,11 +23,12 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         // await client.connect();
-
+        // db collection
         const db = client.db('trade-hub');
         const modelCollection = db.collection('products');
         const modelCollection2 = db.collection('exports')
         const modelCollection3 = db.collection('imports')
+        // app the api
         app.get('/products', async (req, res) => {
             const result = await modelCollection.find().toArray()
             res.send(result)
@@ -87,7 +88,6 @@ async function run() {
                 })
             res.send(result)
         })
-
         app.delete('/exports/:id', async (req, res) => {
             const { id } = req.params;
             const data = req.body
